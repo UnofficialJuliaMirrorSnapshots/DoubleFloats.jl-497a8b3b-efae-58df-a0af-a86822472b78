@@ -29,6 +29,7 @@ export DoubleFloat,
        spread, sld, tld,
        signs,
        randpm,
+       tanpi,
        agm, agm1, elliptick
 
 using Base.MathConstants: pi, golden, ℯ, eulergamma, catalan
@@ -119,6 +120,7 @@ include("math/linearalgebra/matmul.jl")
 include("math/linearalgebra/support.jl")
 
 include("extras/random.jl")
+include("extras/misc.jl")
 
 
 end # module DoubleFloats

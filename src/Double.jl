@@ -25,14 +25,6 @@ struct DoubleFloat{T} <: MultipartFloat
 
 end
 
-DoubleFloat(x::T1, y::T2) where {T1<:Real, T2<:Real} = DoubleFloat(promote(x, y)...)
-DoubleFloat(x::T, y::T) where {T<:Integer} = DoubleFloat{Float64}(BigFloat(x) + BigFloat(y))
-
-function DoubleFloat(x::DoubleFloat{T}) where {T<:IEEEFloat}
-    hi,lo = HILO(x)
-    hi,lo = two_sum(hi, lo)
-    return DoubleFloat{T}(hi, lo)
-end
 
 const Double64 = DoubleFloat{Float64}
 const Double32 = DoubleFloat{Float32}
@@ -41,6 +33,17 @@ const Double16 = DoubleFloat{Float16}
 const ComplexDF64 = Complex{DoubleFloat{Float64}}
 const ComplexDF32 = Complex{DoubleFloat{Float32}}
 const ComplexDF16 = Complex{DoubleFloat{Float16}}
+
+
+DoubleFloat(x::T1, y::T2) where {T1<:Real, T2<:Real} = DoubleFloat(promote(x, y)...)
+DoubleFloat(x::T, y::T) where {T<:Integer} = DoubleFloat{Float64}(BigFloat(x) + BigFloat(y))
+
+DoubleFloat(x::DoubleFloat{T}) where {T<:IEEEFloat} = x
+DoubleFloat{T}(x::DoubleFloat{T}) where {T<:IEEEFloat} = x
+function DoubleFloat{T1}(x::DoubleFloat{T2}) where {T1<:IEEEFloat, T2<:IEEEFloat}
+    hi,lo = two_sum(T1(HI(x)), T1(LO(x)))
+    return DoubleFloat{T1}(hi, lo)
+end
 
 ComplexDF64(x::T) where {T<:Real} = ComplexDF64(x, zero(T))
 ComplexDF32(x::T) where {T<:Real} = ComplexDF32(x, zero(T))
@@ -232,6 +235,9 @@ end
 DoubleFloat{T}(x::DoubleFloat{T}, y::T) where {T<:IEEEFloat} = DoubleFloat(x, DoubleFloat(y))
 DoubleFloat{T}(x::T, y::DoubleFloat{T}) where {T<:IEEEFloat} = DoubleFloat(DoubleFloat(x), y)
 
+Double64(x::Double64) = x
+Double32(x::Double32) = x
+Double16(x::Double16) = x
 
 """
     Double64(x::Double32)
@@ -256,11 +262,21 @@ Double16(x::Double32) = isfinite(x) ? Double16(BigFloat(x)) : Double16(Float16(x
 DoubleFloat(x::Float64) = Double64(x, 0.0)
 DoubleFloat(x::Float32) = Double32(x, 0.0f0)
 DoubleFloat(x::Float16) = Double16(x, zero(Float16))
+# more coverage
+DoubleFloat(x::Int64) = Double64(x, zero(Int64))
+DoubleFloat(x::Int32) = Double32(x, zero(Int32))
+DoubleFloat(x::Int16) = Double16(x, zero(Int16))
+
 
 precision(::Type{DoubleFloat{T}}) where {T<:IEEEFloat} = 2*precision(T)
 
-eltype(::Type{DoubleFloat{T}}) where {T<:AbstractFloat} = T
-eltype(x::DoubleFloat{T}) where {T<:AbstractFloat} = T
+eltype(::Type{Double64}) = Double64
+eltype(::Type{Double32}) = Double32
+eltype(::Type{Double16}) = Double16
+eltype(x::Double64) = Double64
+eltype(x::Double32) = Double32
+eltype(x::Double16) = Double16
+
 
 # a type specific hash function helps the type to 'just work'
 const hash_double_lo = (UInt === UInt64) ? 0x9bad5ebab034fe78 : 0x72da40cb
