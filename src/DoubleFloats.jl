@@ -30,7 +30,8 @@ export DoubleFloat,
        signs,
        randpm,
        tanpi,
-       agm, agm1, elliptick
+       agm, agm1, elliptick,
+       matrixfunction
 
 using Base.MathConstants: pi, golden, ℯ, eulergamma, catalan
 
@@ -38,7 +39,7 @@ using Random
 import Random.rand
 
 using Polynomials
-using GenericSVD, LinearAlgebra
+using GenericSVD, GenericSchur, LinearAlgebra
 
 # using LinearAlgebra
 import Base: hash, promote_type, promote_rule, convert,
@@ -118,6 +119,7 @@ include("math/elementary/complex.jl")
 
 include("math/linearalgebra/matmul.jl")
 include("math/linearalgebra/support.jl")
+include("math/linearalgebra/matrixfunction.jl")
 
 include("extras/random.jl")
 include("extras/misc.jl")

@@ -1,0 +1,65 @@
+function matrixfunction(fn::Function, m::Matrix{DoubleFloat{T}}) where {T<:IEEEFloat}
+    issquare(m) || throw(ErrorException("matrix must be square"))
+    rank(m) == size(m)[1] || throw(ErrorException("matrix is not diagonizable"))
+    evals = eigvals(m)
+    fnevals = fn.(evals)
+    evecs = eigvecs(m)
+    invevecs = inv(evecs)
+    diagevals = Diagonal(fnevals)
+    result = evecs * diagevals * invevecs
+    return result
+end
+
+function matrixfunction(fn::Function, m::Matrix{Complex{DoubleFloat{T}}}) where {T<:IEEEFloat}
+    issquare(m) || throw(ErrorException("matrix must be square"))
+    rank(m) == size(m)[1] || throw(ErrorException("matrix is not diagonizable"))
+    evals = eigvals(m)
+    fnevals = fn.(evals)
+    evecs = eigvecs(m)
+    invevecs = inv(evecs)
+    diagevals = Diagonal(fnevals)
+    result = evecs * diagevals * invevecs
+    return result
+end
+
+for F in (:sqrt, :cbrt, :log, :exp,
+          :sin, :cos, :tan, :csc, :sec, :cot,
+          :asin, :acos, :atan, :acsc, :asec, :acot,
+          :sinh, :cosh, :tanh, :csch, :sech, :coth,
+          :asinh, :acosh, :atanh, :acsch, :asech, :acoth)
+  @eval begin
+    function $F(m::Matrix{DoubleFloat{T}}) where {T<:IEEEFloat}
+        return matrixfunction($F, m)
+    end
+    function $F(m::Matrix{Complex{DoubleFloat{T}}}) where {T<:IEEEFloat}
+        return matrixfunction($F, m)
+    end
+  end
+end
+
+
+function Base.:(^)(m::Matrix{DoubleFloat{T}}, p::Union{IEEEFloat, DoubleFloat{T}}) where {T<:IEEEFloat}
+    pw = DoubleFloat{T}(p)
+    res = pw * log(m)
+    result = exp(res)
+    return result
+end
+function Base.:(^)(m::Matrix{Complex{DoubleFloat{T}}}, p::Union{IEEEFloat, DoubleFloat{T}}) where {T<:IEEEFloat}
+    pw = DoubleFloat{T}(p)
+    res = pw * log(m)
+    result = exp(res)
+    return result
+end
+
+function Base.:(^)(m::Matrix{DoubleFloat{T}}, p::Union{Complex{T}, Complex{DoubleFloat{T}}}) where {T<:IEEEFloat}
+    pw = Complex{DoubleFloat{T}}(p)
+    res = pw * log(m)
+    result = exp(res)
+    return result
+end
+function Base.:(^)(m::Matrix{Complex{DoubleFloat{T}}}, p::Union{Complex{T}, Complex{DoubleFloat{T}}}) where {T<:IEEEFloat}
+    pw = Complex{DoubleFloat{T}}(p)
+    res = pw * log(m)
+    result = exp(res)
+    return result
+end
