@@ -13,9 +13,7 @@ abstract type MultipartFloat <: AbstractFloat end
 export DoubleFloat,
        Double64, Double32, Double16,
        ComplexDF64, ComplexDF32, ComplexDF16,
-       ComplexD64, ComplexD32, ComplexD16,   # Deprecated
-       @d64_str, @d32_str, @d16_str,         # Deprecated
-       @df64_str, @df32_str, @df16_str,      # Current Use
+       @df64_str, @df32_str, @df16_str,
        MultipartFloat, HI, LO, HILO,
        stringtyped, showtyped, showall,
        isnonzero, ispositive, isnegative, isnonpositive, isnonnegative,
@@ -36,7 +34,7 @@ export DoubleFloat,
 using Base.MathConstants: pi, golden, ℯ, eulergamma, catalan
 
 using Random
-import Random: rand
+import Random: rand, randn
 
 using Polynomials
 
@@ -69,6 +67,7 @@ import Base.Math: frexp, ldexp, eps, nextfloat, prevfloat, modf, fma, muladd,
              sinh, cosh, tanh, csch, sech, coth,
              asinh, acosh, atanh, acsch, asech, acoth
 
+import Quadmath
 
 include("Double.jl")   # Double64, Double32, Double16
 
@@ -90,7 +89,7 @@ include("type/specialvalues.jl")
 include("type/string.jl")
 include("type/show.jl")
 include("type/parse.jl")
-
+include("type/quadmath.jl")
 
 include("math/prearith/prearith.jl")
 include("math/prearith/floorceiltrunc.jl")
