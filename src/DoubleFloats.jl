@@ -14,6 +14,7 @@ export DoubleFloat,
        Double64, Double32, Double16,
        ComplexDF64, ComplexDF32, ComplexDF16,
        @df64_str, @df32_str, @df16_str,
+       @via_df64, @via_df32,
        MultipartFloat, HI, LO, HILO,
        stringtyped, showtyped, showall,
        isnonzero, ispositive, isnegative, isnonpositive, isnonnegative,
@@ -120,6 +121,7 @@ include("math/linearalgebra/matrixfunction.jl")
 
 include("extras/random.jl")
 include("extras/misc.jl")
+include("extras/macros.jl")
 
 
 end # module DoubleFloats
