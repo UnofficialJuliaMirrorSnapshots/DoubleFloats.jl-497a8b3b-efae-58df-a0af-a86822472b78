@@ -30,6 +30,8 @@ export DoubleFloat,
        randpm,
        tanpi,
        agm, agm1, elliptick,
+       besselj0, besselj1, besselj, bessely0, bessely1, bessely,
+       gamma, loggamma, lgamma, erf, erfc,
        matrixfunction
 
 using Base.MathConstants: pi, golden, ℯ, eulergamma, catalan
@@ -42,6 +44,11 @@ using Polynomials
 using GenericSVD, GenericSchur
 using LinearAlgebra
 import LinearAlgebra: norm, mul!
+
+import SpecialFunctions
+using Quadmath
+#import Quadmath: sqrt, besselj0, besselj1, besselj, bessely0, bessely1, bessely,
+#                 gamma, lgamma, erf, erfc
 
 import Base: hash, promote_type, promote_rule, convert,
              string, show, parse, tryparse, eltype,
@@ -102,10 +109,6 @@ include("math/arithmetic/normalize_hypot.jl")
 include("math/arithmetic/mixedarith.jl")
 include("math/ops.jl")
 
-#include("math/arithmetic/complex/division.jl")
-include("math/special/agm.jl")
-include("math/special/elliptic.jl")
-
 include("math/elementary/sequences.jl")
 include("math/elementary/explog.jl")
 include("math/elementary/trig.jl")
@@ -118,6 +121,12 @@ include("math/elementary/complex.jl")
 include("math/linearalgebra/matmul.jl")
 include("math/linearalgebra/support.jl")
 include("math/linearalgebra/matrixfunction.jl")
+
+#include("math/arithmetic/complex/division.jl")
+include("math/special/agm.jl")
+include("math/special/elliptic.jl")
+include("math/special/bessel.jl")
+include("math/special/gamma_erf.jl")
 
 include("extras/random.jl")
 include("extras/misc.jl")

@@ -3,6 +3,10 @@
 ### Math with 85+ accurate bits.
 #### Extended precision float and complex types
 
+- N.B. `Double64` is the most performant type <sup>[β](#involvement)</sup>
+
+
+
 ----
 
 [![Build Status](https://travis-ci.org/JuliaMath/DoubleFloats.jl.svg?branch=master)](https://travis-ci.org/JuliaMath/DoubleFloats.jl)&nbsp;&nbsp;&nbsp;[![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](http://juliamath.github.io/DoubleFloats.jl/stable/)&nbsp;&nbsp;&nbsp;[![codecov](https://codecov.io/gh/JuliaMath/DoubleFloats.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaMath/DoubleFloats.jl)
@@ -141,10 +145,9 @@ results for f(x), x in 0..1
 |   cos    |  1.0e-31   |   1.0e-31  |
 |   tan    |  1.0e-31   |   1.0e-31  |
 |          |            |            |
-|  asin    |  1.0e-30   |   1.0e-30  |
-|  acos    |  1.0e-30   |   1.0e-29  |
-|  atan    |  1.0e-31   |   1.0e-30  |
-|          |            |            |
+|  asin    |  1.0e-31   |   1.0e-31  |
+|  acos    |  1.0e-31   |   1.0e-31  |
+|  atan    |  1.0e-31   |   1.0e-31  |
 |          |            |            |
 |   sinh   |  1.0e-31   |   1.0e-29  |
 |   cosh   |  1.0e-31   |   1.0e-31  |
@@ -157,25 +160,22 @@ results for f(x), x in 0..1
 results for f(x), x in 1..2
  
 
-| function |   abserr   |   relerr   |   notes   |
-|:--------:|:----------:|:----------:|:---------:|
-|   exp    |  1.0e-30   |   1.0e-31  | |
-|   log    |  1.0e-31   |   1.0e-31  | |
-|          |            |            | |
-|   sin    |  1.0e-31   |   1.0e-31  | |
-|   cos    |  1.0e-31   |   1.0e-28  | |
-|   tan    |  1.0e-24   |   1.0e-28  | near asymptote |
-|          |            |            | |
-|  asin    |  1.0e-30   |   1.0e-30  | |
-|  acos    |  1.0e-30   |   1.0e-29  | |
-|  atan    |  1.0e-31   |   1.0e-30  | |
-|          |            |            | |
-|          |            |            | |
-|   sinh   |  1.0e-30   |   1.0e-31  | |
-|   cosh   |  1.0e-30   |   1.0e-31  | |
-|   tanh   |  1.0e-31   |   1.0e-31  | |
-|          |            |            | |
-|  asinh   |  1.0e-31   |   1.0e-31  | |
+| function |   abserr   |   relerr   |
+|:--------:|:----------:|:----------:|
+|   exp    |  1.0e-30   |   1.0e-31  |
+|   log    |  1.0e-31   |   1.0e-31  |
+|          |            |            |
+|   sin    |  1.0e-31   |   1.0e-31  |
+|   cos    |  1.0e-31   |   1.0e-28  |
+|   tan    |  1.0e-30   |   1.0e-30  |
+|          |            |            |
+|  atan    |  1.0e-31   |   1.0e-31  |
+|          |            |            |
+|   sinh   |  1.0e-30   |   1.0e-31  |
+|   cosh   |  1.0e-30   |   1.0e-31  |
+|   tanh   |  1.0e-31   |   1.0e-31  |
+|          |            |            |
+|  asinh   |  1.0e-31   |   1.0e-31  |
 
 
 ## Good Ways To Use This
@@ -194,6 +194,11 @@ Usage questions can be posted on the [Julia Discourse forum][discourse-tag-url].
 
 Contributions are very welcome, as are feature requests and suggestions. Please open an [issue][issues-url] if you encounter any problems. The [contributing page][contrib-url] has a few guidelines that should be followed when opening pull requests.
 
+----
+
+<a name="involvement">β</a>: If you want to get involved with moving `Double32` performance forward, great. I would provide guidance. Otherwise, for most purposes you are better off using `Float64` than `Double32` (`Float64` has more significant bits, wider exponent range, and is much faster).
+
+----
 [contrib-url]: https://juliamath.github.io/DoubleFloats.jl/latest/man/contributing/
 [discourse-tag-url]: https://discourse.julialang.org/tags/doublefloats
 [gitter-url]: https://gitter.im/juliamath/users
